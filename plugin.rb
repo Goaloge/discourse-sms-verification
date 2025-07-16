@@ -6,6 +6,8 @@
 
 enabled_site_setting :sms_verification_enabled
 
+config.plugins = [:sms_verification]
+
 after_initialize do
   module ::SmsVerification
     class Engine < ::Rails::Engine
