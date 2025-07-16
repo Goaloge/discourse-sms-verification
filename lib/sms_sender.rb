@@ -6,6 +6,12 @@ module SmsSender
     auth_token = SiteSetting.twilio_auth_token
     from_number = SiteSetting.twilio_from_number
 
+    # Sicherheitsprüfung: Nicht senden, wenn Daten fehlen
+    if account_sid.blank? || auth_token.blank? || from_number.blank?
+      Rails.logger.warn("Twilio-SMS nicht gesendet: API-Zugangsdaten fehlen.")
+      return
+    end
+
     begin
       client = Twilio::REST::Client.new(account_sid, auth_token)
 
