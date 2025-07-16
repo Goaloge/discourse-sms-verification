@@ -3,6 +3,7 @@
 # version: 0.1
 # authors: Michael Braun
 # url: https://github.com/dein/plugin
+gem 'twilio-ruby', '~> 5.78' # oder eine Version, die du brauchst
 
 enabled_site_setting :sms_verification_enabled
 
