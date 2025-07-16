@@ -15,7 +15,13 @@ after_initialize do
   end
 
   require_dependency 'user'
+  begin
+  require 'twilio-ruby'
   require_relative 'lib/sms_sender'
+rescue LoadError => e
+  Rails.logger.warn("twilio-ruby konnte nicht geladen werden: #{e}")
+end
+
 
   on(:user_created) do |user|
     if SiteSetting.sms_verification_enabled
