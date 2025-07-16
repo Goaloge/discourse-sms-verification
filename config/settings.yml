@@ -1,0 +1,16 @@
+plugins:
+  sms_verification_enabled:
+    default: true
+    client: false
+
+  twilio_account_sid:
+    default: ""
+    client: false
+
+  twilio_auth_token:
+    default: ""
+    client: false
+
+  twilio_from_number:
+    default: ""
+    client: false
