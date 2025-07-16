@@ -4,8 +4,6 @@
 # authors: Michael Braun
 # url: https://github.com/dein/plugin
 
-gem 'twilio-ruby'
-
 enabled_site_setting :sms_verification_enabled
 
 after_initialize do
