@@ -72,9 +72,9 @@ end
   end
 
   # Register frontend assets for verification page
-  register_asset "javascripts/discourse/routes/sms-verification-verify.js"
-  register_asset "javascripts/discourse/templates/sms-verification-verify.hbs"
-  register_asset "javascripts/discourse/controllers/sms-verification-verify.js"
-  register_asset "javascripts/discourse/initializers/sms-verification.js"
+  #register_asset "javascripts/discourse/routes/sms-verification-verify.js"
+  #register_asset "javascripts/discourse/templates/sms-verification-verify.hbs"
+  #register_asset "javascripts/discourse/controllers/sms-verification-verify.js"
+  #register_asset "javascripts/discourse/initializers/sms-verification.js"
 
 end
