@@ -4,7 +4,7 @@
 # authors: Michael Braun
 # url: https://github.com/dein/plugin
 
-gem 'twilio-ruby', '~> 5.78' 
+gem 'twilio-ruby'
 
 enabled_site_setting :sms_verification_enabled
 
