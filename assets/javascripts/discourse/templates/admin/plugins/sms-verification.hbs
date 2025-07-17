@@ -1,0 +1,21 @@
+<div class="sms-verification-admin">
+  <h2>{{i18n "sms_verification.admin.title"}}</h2>
+  
+  <div class="stats">
+    <div class="stat">
+      <h3>{{stats.verified_users}}</h3>
+      <p>{{i18n "sms_verification.admin.verified_users"}}</p>
+    </div>
+    <div class="stat">
+      <h3>{{stats.recent_verifications}}</h3>
+      <p>{{i18n "sms_verification.admin.recent_verifications"}}</p>
+    </div>
+  </div>
+
+  <DButton 
+    @action={{action "refreshStats"}} 
+    @icon="sync-alt"
+    @label="sms_verification.admin.refresh"
+    class="btn-primary"
+  />
+</div>
