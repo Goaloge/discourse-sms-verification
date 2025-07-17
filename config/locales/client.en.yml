@@ -1,0 +1,16 @@
+en:
+  js:
+    sms_verification:
+      phone_label: "Phone number (international format)"
+      code_label: "Verification code"
+      send_button: "Send SMS"
+      verify_button: "Verify"
+      sms_body: "Your %{site_name} verification code: %{code}"
+      invalid_code: "Invalid or expired code"
+      not_verified: "Phone number not verified"
+    admin:
+      sms_verification:
+        title: "SMS Verification"
+        verified_users: "Verified Users"
+        recent_verifications: "Active Verifications (24h)"
+        refresh: "Refresh Stats"
