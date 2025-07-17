@@ -3,7 +3,7 @@ module Admin
     requires_plugin 'discourse-sms-verification'
 
     def index
-      render json: { success: true, stats: {} } # Beispiel-Response
+      render json: { success: true }
     end
   end
 end
