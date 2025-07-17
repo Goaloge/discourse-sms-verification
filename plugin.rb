@@ -6,6 +6,8 @@
 # url: https://github.com/Goaloge/discourse-sms-verification
 # transpile_js: true
 
+require_dependency 'rate_limiter'
+
 enabled_site_setting :sms_verification_enabled
 
 register_asset 'stylesheets/sms-verification.scss'
