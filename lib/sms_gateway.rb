@@ -1,6 +1,6 @@
 # lib/sms_gateway.rb
 module SmsVerification
-  class SmsGateway
+  module SmsGateway
     PROVIDERS = {
       twilio: {
         url: "https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json",
