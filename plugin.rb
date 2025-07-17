@@ -29,7 +29,7 @@ after_initialize do
   require_relative 'lib/verification_code'
   require_relative 'lib/sms_gateway'
   require_relative 'lib/sms_gateway/twilio'
-  require_relative 'lib/sms_gateway/messagebird'
+  # require_relative 'lib/sms_gateway/messagebird'
   require_relative 'lib/sms_gateway/fallback'
   require_relative 'lib/admin/sms_verification_admin_controller'
 
