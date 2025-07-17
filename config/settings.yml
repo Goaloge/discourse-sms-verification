@@ -1,5 +1,5 @@
 sms_verification_enabled:
-  default: false
+  default: true
   client: true
 
 sms_gateway_provider:
