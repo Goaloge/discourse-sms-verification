@@ -1,80 +1,60 @@
+# plugin.rb
 # name: discourse-sms-verification
-# about: Plugin zur SMS-Verifizierung neuer Benutzer via Twilio
+# about: Erzwingt SMS-Verifikation bei der Registrierung
 # version: 0.1
 # authors: Michael Braun
-# url: https://github.com/dein/plugin
+# url: https://github.com/Goaloge/discourse-sms-verification
 
 enabled_site_setting :sms_verification_enabled
 
+register_asset 'stylesheets/sms-verification.scss'
+
 after_initialize do
   module ::SmsVerification
+    PLUGIN_NAME = "discourse-sms-verification"
+    
     class Engine < ::Rails::Engine
-      engine_name "sms_verification"
+      engine_name PLUGIN_NAME
       isolate_namespace SmsVerification
     end
   end
 
-  require_dependency 'user'
-  begin
-  require 'twilio-ruby'
-  require_relative 'lib/sms_sender'
-rescue LoadError => e
-  Rails.logger.warn("twilio-ruby konnte nicht geladen werden: #{e}")
-end
+  require_relative 'lib/verification_code'
+  require_relative 'lib/sms_gateway'
+  
+  class SmsVerification::VerificationController < ::ApplicationController
+    skip_before_action :redirect_to_login_if_required
 
-
-  on(:user_created) do |user|
-    if SiteSetting.sms_verification_enabled
-      phone = user.custom_fields["phone_number"]
-      code = rand(100000..999999).to_s
-
-      user.custom_fields["sms_code"] = code
-      user.custom_fields["sms_verified"] = "false"
-      user.save_custom_fields
-
-      SmsSender.send_code(phone, code)
-    end
-  end
-
-  DiscourseEvent.on(:user_logged_in) do |user|
-    if user.custom_fields["sms_verified"] != "true"
-      # Optional: Hinweis anzeigen oder Weiterleitung zur Verifizierungsseite verlinken
-    end
-  end
-
-  module ::SmsVerification
-    class VerifyController < ::ApplicationController
-      requires_plugin 'discourse-sms-verification'
-
-      before_action :ensure_logged_in
-
-      def confirm
-        code = params[:code]
-        user = current_user
-
-        if user.custom_fields["sms_code"] == code
-          user.custom_fields["sms_verified"] = "true"
-          user.save_custom_fields
-          render json: { success: true }
-        else
-          render json: { success: false, error: "Falscher Code" }
-        end
+    def send_code
+      phone = params[:phone]
+      return render json: { error: "Ungültige Telefonnummer" } unless valid_phone?(phone)
+      
+      code = SmsVerification::VerificationCode.generate(phone)
+      if SmsVerification::SmsGateway.send(phone, "Ihr Verifikationscode: #{code}")
+        render json: { success: true }
+      else
+        render json: { error: "SMS konnte nicht gesendet werden" }
       end
     end
-  end
 
-  SmsVerification::Engine.routes.draw do
-    post "/verify" => "verify#confirm"
+    private
+
+    def valid_phone?(phone)
+      # Hier echte Validierung einbauen
+      phone =~ /\A\+\d{8,15}\z/
+    end
   end
 
   Discourse::Application.routes.append do
-    mount ::SmsVerification::Engine, at: "/sms-verification"
+    post "/sms-verification/send" => "sms_verification/verification#send_code"
   end
 
-  # Register frontend assets for verification page
-  #register_asset "javascripts/discourse/routes/sms-verification-verify.js"
-  #register_asset "javascripts/discourse/templates/sms-verification-verify.hbs"
-  #register_asset "javascripts/discourse/controllers/sms-verification-verify.js"
-  #register_asset "javascripts/discourse/initializers/sms-verification.js"
-
+  add_to_class(:user_creator, :require_sms_verification) do
+    return if Rails.env.test?
+    
+    phone = @user.custom_fields['phone_number']
+    unless SmsVerification::VerificationCode.verified?(phone)
+      raise ActiveRecord::RecordInvalid.new("SMS nicht verifiziert")
+    end
+  end
 end
