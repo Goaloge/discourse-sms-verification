@@ -34,17 +34,13 @@ after_initialize do
   require_relative 'lib/admin/sms_verification_admin_controller'
 
   # Rate Limiting
-  RateLimiter.register_limiters! do
-    [
-      RateLimiter.new(
-        "sms_verification_per_ip",
-        3,
-        1.hour,
-        apply_to: [:send_code, :verify],
-        per: :ip
-      )
-    ]
-  end
+  # Neue Implementierung:
+register_rate_limiter(:sms_verification_per_ip) do |rl|
+  rl.apply_to_actions!(:send_code, :verify)
+  rl.max = 3
+  rl.per = 1.hour
+  rl.rate_limiter_type = :ip
+end
 
   # Controller für SMS-Verifikation
   class SmsVerification::VerificationController < ::ApplicationController
