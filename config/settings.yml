@@ -1,16 +1,16 @@
-plugins:
-  sms_verification_enabled:
-    default: false
-    client: false
+sms_verification_enabled:
+  default: false
+  client: true
 
-  twilio_account_sid:
-    default: ""
-    client: false
+sms_gateway_provider:
+  default: "twilio"
 
-  twilio_auth_token:
-    default: ""
-    client: false
+sms_gateway_account:
+  default: ""
 
-  twilio_from_number:
-    default: ""
-    client: false
+sms_gateway_token:
+  default: ""
+  secret: true
+
+sms_gateway_sender:
+  default: ""
