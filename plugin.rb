@@ -12,6 +12,8 @@ register_asset 'stylesheets/sms-verification.scss'
 
 register_svg_icon "mobile-alt" if respond_to?(:register_svg_icon)
 
+gem 'twilio-ruby', '>= 6.0.0', require: false
+
 after_initialize do
   # Engine für Namespacing
   module ::SmsVerification
