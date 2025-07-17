@@ -1,7 +1,7 @@
 module SmsVerification
   module SmsGateway
     class Fallback
-      PROVIDERS = [Twilio, Messagebird].freeze
+      PROVIDERS = [Twilio].freeze
 
       def self.send(phone, message)
         last_error = nil
