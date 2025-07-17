@@ -36,11 +36,7 @@ after_initialize do
   require_relative 'lib/admin/sms_verification_admin_controller'
 
   # Rate Limiting
-  DiscoursePluginRegistry.register_rate_limiter(:sms_verification, [:send_code, :verify]) do |rl|
-  rl.global_limit = 3
-  rl.global_per = 1.hour
-  rl.limit_by = :ip
-  end
+  RateLimiter.new(nil, "sms_verification_per_ip", 3, 1.hour).apply_to_actions(:send_code, :verify)
 
   # Controller für SMS-Verifikation
   class SmsVerification::VerificationController < ::ApplicationController
