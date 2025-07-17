@@ -10,6 +10,8 @@ enabled_site_setting :sms_verification_enabled
 
 register_asset 'stylesheets/sms-verification.scss'
 
+register_seedfu_fixtures(Rails.root.join("plugins", "discourse-sms-verification", "db", "fixtures").to_s)
+
 register_svg_icon "mobile-alt" if respond_to?(:register_svg_icon)
 
 gem 'twilio-ruby', '6.0.0', require: false, platform: :ruby
