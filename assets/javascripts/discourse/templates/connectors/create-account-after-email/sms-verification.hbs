@@ -1,0 +1,39 @@
+<div class="sms-verification">
+  <div class="input-group">
+    <label for="phone-number">{{i18n "sms_verification.phone_label"}}</label>
+    <Input 
+      @type="tel" 
+      @value={{this.phone}} 
+      id="phone-number" 
+      placeholder="+49123456789" 
+      disabled={{this.codeSent}} 
+    />
+  </div>
+
+  {{#if this.codeSent}}
+    <div class="input-group">
+      <label for="sms-code">{{i18n "sms_verification.code_label"}}</label>
+      <Input @type="text" @value={{this.code}} id="sms-code" />
+    </div>
+  {{/if}}
+
+  <div class="actions">
+    {{#if this.codeSent}}
+      <Button 
+        @action={{action "verifyCode"}} 
+        @disabled={{this.verifying}} 
+        class="btn-primary"
+      >
+        {{i18n "sms_verification.verify_button"}}
+      </Button>
+    {{else}}
+      <Button 
+        @action={{action "sendCode"}} 
+        @disabled={{this.sending}} 
+        class="btn-primary"
+      >
+        {{i18n "sms_verification.send_button"}}
+      </Button>
+    {{/if}}
+  </div>
+</div>
